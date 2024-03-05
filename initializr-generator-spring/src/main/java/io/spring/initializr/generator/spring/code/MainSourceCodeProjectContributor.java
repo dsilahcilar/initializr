@@ -17,6 +17,7 @@
 package io.spring.initializr.generator.spring.code;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Supplier;
@@ -77,8 +78,9 @@ public class MainSourceCodeProjectContributor<T extends TypeDeclaration, C exten
 		customizeMainApplicationType(mainApplicationType);
 		customizeMainCompilationUnit(compilationUnit);
 		customizeMainSourceCode(sourceCode);
+		Path webDirectory = Files.createDirectories(projectRoot.resolve("web"));
 		this.sourceWriter.writeTo(
-				this.description.getBuildSystem().getMainSource(projectRoot, this.description.getLanguage()),
+				this.description.getBuildSystem().getMainSource(webDirectory, this.description.getLanguage()),
 				sourceCode);
 	}
 

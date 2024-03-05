@@ -35,7 +35,7 @@
 		<commons-text.version>1.10.0</commons-text.version>
 		<maven.version>3.9.4</maven.version>
 		<maven-resolver.version>1.9.15</maven-resolver.version>
-		<spring-boot.version>3.2.3</spring-boot.version>
+		<spring-boot.version>3.2.2</spring-boot.version>
 		<spring-cloud-contract.version>4.0.4</spring-cloud-contract.version>
 	</properties>
 	<scm>
@@ -94,14 +94,6 @@
 				<groupId>com.vaadin.external.google</groupId>
 				<artifactId>android-json</artifactId>
 				<version>0.0.20131108.vaadin1</version>
-			</dependency>
-			<!-- Fixes
-				 Warning:java: unknown enum constant javax.annotation.meta.When.MAYBE reason: class file for javax.annotation.meta.When not found
-			-->
-			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>jsr305</artifactId>
-				<version>3.0.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -182,8 +174,6 @@
 						<source>${java.version}</source>
 						<target>${java.version}</target>
 						<parameters>true</parameters>
-						<failOnWarning>true</failOnWarning>
-						<showDeprecation>true</showDeprecation>
 					</configuration>
 				</plugin>
 				<plugin>

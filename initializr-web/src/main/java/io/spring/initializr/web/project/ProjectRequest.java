@@ -57,6 +57,8 @@ public class ProjectRequest {
 	// The base directory to create in the archive - no baseDir by default
 	private String baseDir;
 
+	private String pCode;
+
 	public List<String> getDependencies() {
 		return this.dependencies;
 	}
@@ -175,4 +177,11 @@ public class ProjectRequest {
 		this.baseDir = baseDir;
 	}
 
+	public String getpCode() {
+		return pCode;
+	}
+
+	public void setpCode(String pCode) {
+		this.pCode = pCode;
+	}
 }

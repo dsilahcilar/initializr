@@ -119,4 +119,8 @@ public interface ProjectDescription {
 	 */
 	String getBaseDirectory();
 
+	Boolean isMultiModule();
+
+	String pCode();
+
 }

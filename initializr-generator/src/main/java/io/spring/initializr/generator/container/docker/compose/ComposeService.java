@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import java.util.TreeSet;
  *
  * @author Moritz Halbritter
  * @author Stephane Nicoll
- * @author Eddú Meléndez
  */
 public final class ComposeService {
 
@@ -47,8 +46,6 @@ public final class ComposeService {
 
 	private final String command;
 
-	private final Map<String, String> labels;
-
 	private ComposeService(Builder builder) {
 		this.name = builder.name;
 		this.image = builder.image;
@@ -57,7 +54,6 @@ public final class ComposeService {
 		this.environment = Collections.unmodifiableMap(new TreeMap<>(builder.environment));
 		this.ports = Collections.unmodifiableSet(new TreeSet<>(builder.ports));
 		this.command = builder.command;
-		this.labels = Collections.unmodifiableMap(new TreeMap<>(builder.labels));
 	}
 
 	public String getName() {
@@ -88,10 +84,6 @@ public final class ComposeService {
 		return this.command;
 	}
 
-	public Map<String, String> getLabels() {
-		return this.labels;
-	}
-
 	/**
 	 * Builder for {@link ComposeService}.
 	 */
@@ -110,8 +102,6 @@ public final class ComposeService {
 		private final Set<Integer> ports = new TreeSet<>();
 
 		private String command;
-
-		private final Map<String, String> labels = new TreeMap<>();
 
 		protected Builder(String name) {
 			this.name = name;
@@ -159,16 +149,6 @@ public final class ComposeService {
 
 		public Builder command(String command) {
 			this.command = command;
-			return this;
-		}
-
-		public Builder label(String key, String value) {
-			this.labels.put(key, value);
-			return this;
-		}
-
-		public Builder labels(Map<String, String> label) {
-			this.labels.putAll(label);
 			return this;
 		}
 

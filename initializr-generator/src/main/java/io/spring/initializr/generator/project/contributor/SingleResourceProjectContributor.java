@@ -55,7 +55,8 @@ public class SingleResourceProjectContributor implements ProjectContributor {
 
 	@Override
 	public void contribute(Path projectRoot) throws IOException {
-		Path output = projectRoot.resolve(this.relativePath);
+		Path webDirectory = Files.createDirectories(projectRoot.resolve("web"));
+		Path output = webDirectory.resolve(this.relativePath);
 		if (!Files.exists(output)) {
 			Files.createDirectories(output.getParent());
 			Files.createFile(output);

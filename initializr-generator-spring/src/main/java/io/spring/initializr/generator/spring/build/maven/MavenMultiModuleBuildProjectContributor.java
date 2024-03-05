@@ -16,11 +16,6 @@
 
 package io.spring.initializr.generator.spring.build.maven;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import io.spring.initializr.generator.buildsystem.BuildWriter;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildWriter;
@@ -28,13 +23,18 @@ import io.spring.initializr.generator.io.IndentingWriter;
 import io.spring.initializr.generator.io.IndentingWriterFactory;
 import io.spring.initializr.generator.project.contributor.ProjectContributor;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 /**
  * {@link ProjectContributor} to contribute the files for a {@link MavenBuild}.
  *
  * @author Andy Wilkinson
  * @author Stephane Nicoll
  */
-public class MavenBuildProjectContributor implements BuildWriter, ProjectContributor {
+public class MavenMultiModuleBuildProjectContributor implements BuildWriter, ProjectContributor {
 
 	private final MavenBuild build;
 
@@ -42,7 +42,7 @@ public class MavenBuildProjectContributor implements BuildWriter, ProjectContrib
 
 	private final MavenBuildWriter buildWriter;
 
-	public MavenBuildProjectContributor(MavenBuild build, IndentingWriterFactory indentingWriterFactory) {
+	public MavenMultiModuleBuildProjectContributor(MavenBuild build, IndentingWriterFactory indentingWriterFactory) {
 		this.build = build;
 		this.indentingWriterFactory = indentingWriterFactory;
 		this.buildWriter = new MavenBuildWriter();
@@ -50,8 +50,7 @@ public class MavenBuildProjectContributor implements BuildWriter, ProjectContrib
 
 	@Override
 	public void contribute(Path projectRoot) throws IOException {
-		Path webDirectory = Files.createDirectories(projectRoot.resolve("web"));
-		Path pomFile = Files.createFile(webDirectory.resolve("pom.xml"));
+		Path pomFile = Files.createFile(projectRoot.resolve("pom.xml"));
 		writeBuild(Files.newBufferedWriter(pomFile));
 	}
 
