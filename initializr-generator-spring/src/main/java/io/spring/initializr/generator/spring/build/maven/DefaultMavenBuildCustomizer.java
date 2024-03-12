@@ -49,17 +49,7 @@ public class DefaultMavenBuildCustomizer implements BuildCustomizer<MavenBuild> 
 		build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin");
 
 		Maven maven = this.metadata.getConfiguration().getEnv().getMaven();
-		String springBootVersion = this.description.getPlatformVersion().toString();
-		ParentPom parentPom = maven.resolveParentPom(springBootVersion);
-		if (parentPom.isIncludeSpringBootBom()) {
-			String versionProperty = "spring-boot.version";
-			BillOfMaterials springBootBom = MetadataBuildItemMapper
-				.toBom(this.metadata.createSpringBootBom(springBootVersion, versionProperty));
-			if (!hasBom(build, springBootBom)) {
-				build.properties().version(VersionProperty.of(versionProperty, true), springBootVersion);
-				build.boms().add("spring-boot", springBootBom);
-			}
-		}
+		ParentPom parentPom = new ParentPom(this.description.getGroupId(), this.description.getArtifactId(), this.description.getVersion(), null);
 		if (!maven.isSpringBootStarterParent(parentPom)) {
 			build.properties()
 				.property("project.build.sourceEncoding", "UTF-8")

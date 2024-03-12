@@ -36,9 +36,9 @@ import io.spring.initializr.generator.project.contributor.ProjectContributor;
  */
 public class MavenBuildProjectContributor implements BuildWriter, ProjectContributor {
 
-	private final MavenBuild build;
+	protected final MavenBuild build;
 
-	private final IndentingWriterFactory indentingWriterFactory;
+	protected final IndentingWriterFactory indentingWriterFactory;
 
 	private final MavenBuildWriter buildWriter;
 

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import io.spring.initializr.generator.buildsystem.BuildItemResolver;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuildSystem;
+import io.spring.initializr.generator.buildsystem.maven.ModulesMavenBuild;
 import io.spring.initializr.generator.condition.ConditionalOnBuildSystem;
 import io.spring.initializr.generator.condition.ConditionalOnPackaging;
 import io.spring.initializr.generator.condition.ConditionalOnPlatformVersion;
@@ -65,15 +66,21 @@ public class MavenProjectGenerationConfiguration {
 
 	@SuppressWarnings("unchecked")
 	private MavenBuild createBuild(BuildItemResolver buildItemResolver, List<BuildCustomizer<?>> buildCustomizers) {
-		MavenBuild build = (buildItemResolver != null) ? new MavenBuild(buildItemResolver) : new MavenBuild();
+		ModulesMavenBuild build = (buildItemResolver != null) ? new ModulesMavenBuild(buildItemResolver, List.of("web")) : new ModulesMavenBuild();
 		LambdaSafe.callbacks(BuildCustomizer.class, buildCustomizers, build)
 			.invoke((customizer) -> customizer.customize(build));
 		return build;
 	}
 
 	@Bean
-	public MavenBuildProjectContributor mavenBuildProjectContributor(MavenBuild build,
+	public MavenParentBuildContributor parentBuildContributor(MavenBuild build,
 			IndentingWriterFactory indentingWriterFactory) {
+		return new MavenParentBuildContributor(build, indentingWriterFactory);
+	}
+
+	@Bean
+	public MavenBuildProjectContributor buildProjectContributor(MavenBuild build,
+																	IndentingWriterFactory indentingWriterFactory) {
 		return new MavenBuildProjectContributor(build, indentingWriterFactory);
 	}
 
