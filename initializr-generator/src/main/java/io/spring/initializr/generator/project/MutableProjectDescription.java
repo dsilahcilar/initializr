@@ -62,7 +62,7 @@ public class MutableProjectDescription implements ProjectDescription {
 
     private String pCode;
 
-    private String ciName;
+    private String pName;
 
     public MutableProjectDescription() {
     }
@@ -87,7 +87,7 @@ public class MutableProjectDescription implements ProjectDescription {
         this.packageName = source.getPackageName();
         this.baseDirectory = source.getBaseDirectory();
         this.pCode = source.pCode();
-        this.ciName = source.ciName();
+        this.pName = source.pName();
     }
 
     @Override
@@ -233,8 +233,8 @@ public class MutableProjectDescription implements ProjectDescription {
     }
 
     @Override
-    public String ciName() {
-        return this.ciName;
+    public String pName() {
+        return this.pName;
     }
 
     public void setpCode(String pcode) {
@@ -245,11 +245,11 @@ public class MutableProjectDescription implements ProjectDescription {
         this.baseDirectory = baseDirectory;
     }
 
-    public String getCiName() {
-        return ciName;
+    public String getpName() {
+        return pName;
     }
 
-    public void setCiName(String ciName) {
-        this.ciName = ciName;
+    public void setpName(String pName) {
+        this.pName = pName;
     }
 }

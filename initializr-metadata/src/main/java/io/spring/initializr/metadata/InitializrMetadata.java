@@ -65,7 +65,7 @@ public class InitializrMetadata {
 
 	private final TextCapability pCode = new TextCapability("pCode", "P-Code", "purpose code");
 
-	private final TextCapability ciName = new TextCapability("ciName", "CI Name", "ci name");
+	private final TextCapability pName = new TextCapability("pName", "Product Name", "product name");
 
 	public InitializrMetadata() {
 		this(new InitializrConfiguration());
@@ -131,8 +131,8 @@ public class InitializrMetadata {
 		return pCode;
 	}
 
-	public TextCapability getCiName() {
-		return ciName;
+	public TextCapability getpName() {
+		return pName;
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class InitializrMetadata {
 		this.version.merge(other.version);
 		this.packageName.merge(other.packageName);
 		this.pCode.merge(other.pCode);
-		this.ciName.merge(other.ciName);
+		this.pName.merge(other.pName);
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class InitializrMetadata {
 		defaults.put("description", this.description.getContent());
 		defaults.put("packageName", this.packageName.getContent());
 		defaults.put("pCode", this.pCode.getContent());
-		defaults.put("ciName", this.ciName.getContent());
+		defaults.put("pName", this.pName.getContent());
 		return defaults;
 	}
 

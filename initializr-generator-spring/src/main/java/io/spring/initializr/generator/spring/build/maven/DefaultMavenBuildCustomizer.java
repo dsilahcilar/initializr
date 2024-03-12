@@ -60,7 +60,7 @@ public class DefaultMavenBuildCustomizer implements BuildCustomizer<MavenBuild> 
     }
 
     private void addRepositories(MavenBuild build) {
-        final String feedName = String.format("%s-incoming-%s", this.description.pCode(), this.description.ciName());
+        final String feedName = String.format("%s-incoming-%s", this.description.pCode(), this.description.pName());
         final String url = String.format("https://pkgs.dev.azure.com/INGCDaaS/IngOne/_packaging/%s/maven/v1", feedName);
         build.repositories()
                 .add(new MavenRepository.Builder(feedName, url)

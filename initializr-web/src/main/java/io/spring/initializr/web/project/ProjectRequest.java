@@ -59,7 +59,7 @@ public class ProjectRequest {
 
 	private String pCode;
 
-	private String ciName;
+	private String pName;
 
 	public List<String> getDependencies() {
 		return this.dependencies;
@@ -187,11 +187,11 @@ public class ProjectRequest {
 		this.pCode = pCode;
 	}
 
-	public String getCiName() {
-		return ciName;
+	public String getpName() {
+		return pName;
 	}
 
-	public void setCiName(String ciName) {
-		this.ciName = ciName;
+	public void setpName(String pName) {
+		this.pName = pName;
 	}
 }
