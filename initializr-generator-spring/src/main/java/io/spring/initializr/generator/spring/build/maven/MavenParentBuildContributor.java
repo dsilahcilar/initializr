@@ -32,7 +32,6 @@ public class MavenParentBuildContributor extends MavenBuildProjectContributor {
     }
 
     private void configureParentPom() {
-        parentMavenBuild.plugins().add("org.springframework.boot", "spring-boot-maven-plugin");
         parentMavenBuild.settings()
                 .group(build.getSettings().getGroup())
                 .version(build.getSettings().getVersion())
@@ -44,6 +43,8 @@ public class MavenParentBuildContributor extends MavenBuildProjectContributor {
                         "26.1.0",
                         null
                 );
+        build.repositories().items().forEach(item -> parentMavenBuild.repositories().add(item));
+        build.pluginRepositories().items().forEach(item -> parentMavenBuild.pluginRepositories().add(item));
     }
 
     private void removeUnnecessaryFieldsFromChild() {
@@ -53,6 +54,8 @@ public class MavenParentBuildContributor extends MavenBuildProjectContributor {
                 .group(null)
                 .name(null)
                 .description(null);
+        build.repositories().removeAll();
+        build.pluginRepositories().removeAll();
     }
 
     @Override

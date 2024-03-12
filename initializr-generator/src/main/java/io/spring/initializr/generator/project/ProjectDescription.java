@@ -123,4 +123,6 @@ public interface ProjectDescription {
 
 	String pCode();
 
+	String ciName();
+
 }

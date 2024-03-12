@@ -59,6 +59,8 @@ public class ProjectRequest {
 
 	private String pCode;
 
+	private String ciName;
+
 	public List<String> getDependencies() {
 		return this.dependencies;
 	}
@@ -183,5 +185,13 @@ public class ProjectRequest {
 
 	public void setpCode(String pCode) {
 		this.pCode = pCode;
+	}
+
+	public String getCiName() {
+		return ciName;
+	}
+
+	public void setCiName(String ciName) {
+		this.ciName = ciName;
 	}
 }

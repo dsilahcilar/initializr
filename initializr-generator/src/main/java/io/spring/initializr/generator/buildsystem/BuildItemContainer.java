@@ -111,4 +111,8 @@ public class BuildItemContainer<I, V> {
 		return this.items.remove(id) != null;
 	}
 
+	public void removeAll() {
+		this.items.clear();
+	}
+
 }

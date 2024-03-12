@@ -63,6 +63,10 @@ public class InitializrMetadata {
 
 	private final TextCapability packageName = new PackageCapability(this.groupId, this.artifactId);
 
+	private final TextCapability pCode = new TextCapability("pCode", "P-Code", "purpose code");
+
+	private final TextCapability ciName = new TextCapability("ciName", "CI Name", "ci name");
+
 	public InitializrMetadata() {
 		this(new InitializrConfiguration());
 	}
@@ -123,6 +127,14 @@ public class InitializrMetadata {
 		return this.packageName;
 	}
 
+	public TextCapability getpCode() {
+		return pCode;
+	}
+
+	public TextCapability getCiName() {
+		return ciName;
+	}
+
 	/**
 	 * Merge this instance with the specified argument.
 	 * @param other the other instance
@@ -141,6 +153,8 @@ public class InitializrMetadata {
 		this.artifactId.merge(other.artifactId);
 		this.version.merge(other.version);
 		this.packageName.merge(other.packageName);
+		this.pCode.merge(other.pCode);
+		this.ciName.merge(other.ciName);
 	}
 
 	/**
@@ -253,6 +267,8 @@ public class InitializrMetadata {
 		defaults.put("name", this.name.getContent());
 		defaults.put("description", this.description.getContent());
 		defaults.put("packageName", this.packageName.getContent());
+		defaults.put("pCode", this.pCode.getContent());
+		defaults.put("ciName", this.ciName.getContent());
 		return defaults;
 	}
 

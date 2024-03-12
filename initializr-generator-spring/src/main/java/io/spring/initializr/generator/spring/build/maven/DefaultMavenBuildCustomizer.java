@@ -16,15 +16,13 @@
 
 package io.spring.initializr.generator.spring.build.maven;
 
-import io.spring.initializr.generator.buildsystem.BillOfMaterials;
+import io.spring.initializr.generator.buildsystem.MavenRepository;
 import io.spring.initializr.generator.buildsystem.maven.MavenBuild;
 import io.spring.initializr.generator.project.ProjectDescription;
 import io.spring.initializr.generator.spring.build.BuildCustomizer;
-import io.spring.initializr.generator.version.VersionProperty;
 import io.spring.initializr.metadata.InitializrConfiguration.Env.Maven;
 import io.spring.initializr.metadata.InitializrConfiguration.Env.Maven.ParentPom;
 import io.spring.initializr.metadata.InitializrMetadata;
-import io.spring.initializr.metadata.support.MetadataBuildItemMapper;
 
 /**
  * The default {@link Maven} {@link BuildCustomizer}.
@@ -33,38 +31,44 @@ import io.spring.initializr.metadata.support.MetadataBuildItemMapper;
  */
 public class DefaultMavenBuildCustomizer implements BuildCustomizer<MavenBuild> {
 
-	private final ProjectDescription description;
+    private final ProjectDescription description;
 
-	private final InitializrMetadata metadata;
+    private final InitializrMetadata metadata;
 
-	public DefaultMavenBuildCustomizer(ProjectDescription description, InitializrMetadata metadata) {
-		this.description = description;
-		this.metadata = metadata;
-	}
+    public DefaultMavenBuildCustomizer(ProjectDescription description, InitializrMetadata metadata) {
+        this.description = description;
+        this.metadata = metadata;
+    }
 
-	@Override
-	public void customize(MavenBuild build) {
-		build.settings().name(this.description.getName()).description(this.description.getDescription());
-		build.properties().property("java.version", this.description.getLanguage().jvmVersion());
-		build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin");
+    @Override
+    public void customize(MavenBuild build) {
+        build.settings().name(this.description.getName()).description(this.description.getDescription());
+        build.properties().property("java.version", this.description.getLanguage().jvmVersion());
+        build.plugins().add("org.springframework.boot", "spring-boot-maven-plugin");
 
-		Maven maven = this.metadata.getConfiguration().getEnv().getMaven();
-		ParentPom parentPom = new ParentPom(this.description.getGroupId(), this.description.getArtifactId(), this.description.getVersion(), null);
-		if (!maven.isSpringBootStarterParent(parentPom)) {
-			build.properties()
-				.property("project.build.sourceEncoding", "UTF-8")
-				.property("project.reporting.outputEncoding", "UTF-8");
-		}
-		build.settings()
-			.parent(parentPom.getGroupId(), parentPom.getArtifactId(), parentPom.getVersion(),
-					parentPom.getRelativePath());
-	}
+        Maven maven = this.metadata.getConfiguration().getEnv().getMaven();
+        ParentPom parentPom = new ParentPom(this.description.getGroupId(), this.description.getArtifactId(), this.description.getVersion(), null);
+        if (!maven.isSpringBootStarterParent(parentPom)) {
+            build.properties()
+                    .property("project.build.sourceEncoding", "UTF-8")
+                    .property("project.reporting.outputEncoding", "UTF-8");
+        }
+        build.settings()
+                .parent(parentPom.getGroupId(), parentPom.getArtifactId(), parentPom.getVersion(),
+                        parentPom.getRelativePath());
+        addRepositories(build);
+    }
 
-	private boolean hasBom(MavenBuild build, BillOfMaterials bom) {
-		return build.boms()
-			.items()
-			.anyMatch((candidate) -> candidate.getGroupId().equals(bom.getGroupId())
-					&& candidate.getArtifactId().equals(bom.getArtifactId()));
-	}
+    private void addRepositories(MavenBuild build) {
+        final String feedName = String.format("%s-incoming-%s", this.description.pCode(), this.description.ciName());
+        final String url = String.format("https://pkgs.dev.azure.com/INGCDaaS/IngOne/_packaging/%s/maven/v1", feedName);
+        build.repositories()
+                .add(new MavenRepository.Builder(feedName, url)
+                        .releasesEnabled(true)
+                        .snapshotsEnabled(true));
+        build.pluginRepositories()
+                .add(new MavenRepository.Builder(feedName, url)
+                        .snapshotsEnabled(false));
+    }
 
 }
